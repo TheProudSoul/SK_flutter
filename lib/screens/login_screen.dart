@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:justwriteit/common/operations.dart';
-import 'package:justwriteit/screens/dashboard.dart';
-import 'package:justwriteit/utilities/constants.dart';
+import 'package:super_knowledge/common/operations.dart';
+import 'package:super_knowledge/screens/dashboard.dart';
+import 'package:super_knowledge/utilities/constants.dart';
 
 class LoginScreen extends StatefulWidget {
   @override

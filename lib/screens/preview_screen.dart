@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:justwriteit/common/file_model.dart';
-import 'package:justwriteit/screens/editor.dart';
-import 'package:justwriteit/screens/loading.dart';
-import 'package:justwriteit/utilities/api.dart';
+import 'package:super_knowledge/common/file_model.dart';
+import 'package:super_knowledge/screens/editor.dart';
+import 'package:super_knowledge/screens/loading.dart';
+import 'package:super_knowledge/utilities/api.dart';
 import 'package:toast/toast.dart';
 
 class PreviewScreen extends StatefulWidget {
@@ -99,7 +98,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
       appBar: AppBar(
         leading: IconButton(icon: Icon(Icons.arrow_back, color: Colors.black), onPressed: ()=>Navigator.pop(context)),
         centerTitle: true,
-        title: Text(widget._fileModel.title, style: TextStyle(color: Colors.black)),
+        title: Text(widget._fileModel.title.substring(0, widget._fileModel.title.indexOf('.')), style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.white,
         actions: _buildAppbarActions(),
       ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:justwriteit/common/operations.dart';
-import 'package:justwriteit/screens/loading.dart';
-import 'package:justwriteit/utilities/constants.dart';
+import 'package:super_knowledge/common/operations.dart';
+import 'package:super_knowledge/screens/loading.dart';
+import 'package:super_knowledge/utilities/constants.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class SignupScreen extends StatefulWidget {

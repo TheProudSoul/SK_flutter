@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:justwriteit/common/file_model.dart';
-import 'package:justwriteit/common/user_model.dart';
+import 'package:super_knowledge/common/file_model.dart';
+import 'package:super_knowledge/common/user_model.dart';
 
 class Api {
   Dio dio;

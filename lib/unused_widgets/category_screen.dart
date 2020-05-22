@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:justwriteit/common/file_model.dart';
-import 'package:justwriteit/screens/preview_screen.dart';
-import 'package:justwriteit/utilities/api.dart';
+import 'package:super_knowledge/common/file_model.dart';
+import 'package:super_knowledge/screens/preview_screen.dart';
+import 'package:super_knowledge/utilities/api.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 final api = new Api();
@@ -221,7 +221,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getData();
   }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:justwriteit/bloc/bloc.dart';
-import 'package:justwriteit/common/operations.dart';
+import 'package:super_knowledge/bloc/bloc.dart';
+import 'package:super_knowledge/common/operations.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'category_screen.dart';

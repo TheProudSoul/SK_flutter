@@ -2,16 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:justwriteit/bloc/bloc.dart';
-import 'package:justwriteit/common/file_entry_item.dart';
-import 'package:justwriteit/common/file_model.dart';
-import 'package:justwriteit/screens/loading.dart';
-import 'package:justwriteit/utilities/api.dart';
-import 'package:justwriteit/utilities/constants.dart';
+import 'package:super_knowledge/bloc/bloc.dart';
+import 'package:super_knowledge/common/file_entry_item.dart';
+import 'package:super_knowledge/common/file_model.dart';
+import 'package:super_knowledge/screens/loading.dart';
+import 'package:super_knowledge/utilities/constants.dart';
 
 import '../common/operations.dart';
-
-final api = new Api();
 
 class CategoryScreen extends StatefulWidget {
   @override

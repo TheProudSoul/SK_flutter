@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:justwriteit/common/file_model.dart';
-import 'package:justwriteit/common/operations.dart';
+import 'package:super_knowledge/common/file_model.dart';
+import 'package:super_knowledge/common/operations.dart';
 import 'package:toast/toast.dart';
 
 class Editor extends StatefulWidget {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:justwriteit/bloc/bloc.dart';
-import 'package:justwriteit/common/file_model.dart';
-import 'package:justwriteit/utilities/api.dart';
+import 'package:super_knowledge/bloc/bloc.dart';
+import 'package:super_knowledge/common/file_model.dart';
+import 'package:super_knowledge/utilities/api.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:toast/toast.dart';
 

@@ -1,7 +1,7 @@
 import 'package:notus/convert.dart';
 import 'package:flutter/material.dart';
-import 'package:justwriteit/common/file_model.dart';
-import 'package:justwriteit/utilities/api.dart';
+import 'package:super_knowledge/common/file_model.dart';
+import 'package:super_knowledge/utilities/api.dart';
 import 'package:toast/toast.dart';
 import 'package:zefyr/zefyr.dart';
 import 'package:quill_delta/quill_delta.dart';

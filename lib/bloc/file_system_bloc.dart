@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:justwriteit/common/file_model.dart';
-import 'package:justwriteit/utilities/api.dart';
+import 'package:super_knowledge/common/file_model.dart';
+import 'package:super_knowledge/utilities/api.dart';
 import './bloc.dart';
 
 class FileSystemBloc extends Bloc<FileSystemEvent, FileSystemState> {

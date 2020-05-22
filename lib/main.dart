@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:justwriteit/screens/login_screen.dart';
-import 'package:justwriteit/screens/signup_screen.dart';
+import 'package:super_knowledge/screens/login_screen.dart';
+import 'package:super_knowledge/screens/signup_screen.dart';
 
 import 'bloc/simple_bloc_delegate.dart';
 

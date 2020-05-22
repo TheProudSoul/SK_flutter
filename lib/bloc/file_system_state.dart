@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:justwriteit/common/file_model.dart';
+import 'package:super_knowledge/common/file_model.dart';
 
 abstract class FileSystemState extends Equatable {
   const FileSystemState([List props = const []]);

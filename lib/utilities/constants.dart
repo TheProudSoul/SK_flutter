@@ -23,4 +23,4 @@ final kBoxDecorationStyle = BoxDecoration(
   ],
 );
 
-final Color mainColor = Color(0xFF61A4F1);
+final Color mainColor = Color(0xFF398AE5);

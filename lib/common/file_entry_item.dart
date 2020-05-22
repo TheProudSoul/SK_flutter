@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:justwriteit/bloc/bloc.dart';
-import 'package:justwriteit/bloc/file_system_bloc.dart';
-import 'package:justwriteit/screens/preview_screen.dart';
-import 'package:justwriteit/utilities/api.dart';
+import 'package:super_knowledge/bloc/bloc.dart';
+import 'package:super_knowledge/screens/preview_screen.dart';
+import 'package:super_knowledge/utilities/api.dart';
 import 'operations.dart';
 import 'file_model.dart';
 
@@ -23,8 +22,8 @@ class _FileEntryItemState extends State<FileEntryItem> {
   Widget _buildTiles(BuildContext context, FileModel root) {
     if (root.leaf) {
       return ListTile(
-        leading: Icon(Icons.bookmark_border),
-        title: Text(root.title),
+        leading: Icon(Icons.description, color: Colors.blueGrey[600]),
+        title: Text(root.title.substring(0,root.title.indexOf('.')), style: TextStyle(color: Colors.blueGrey[800])),
         onTap: () {
           Navigator.of(context)
               .push(MaterialPageRoute(
@@ -53,9 +52,9 @@ class _FileEntryItemState extends State<FileEntryItem> {
         _onLongPressed();
       },
       child: ExpansionTile(
-        leading: Icon(Icons.folder_open),
+        leading: Icon(Icons.folder_open, color: Colors.blueGrey[600]),
         key: PageStorageKey<FileModel>(root),
-        title: Text(root.title),
+        title: Text(root.title, style: TextStyle(color: Colors.blueGrey[800])),
         children:
             root.children.map<Widget>((e) => _buildTiles(context, e)).toList(),
       ),
@@ -92,34 +91,21 @@ class _FileEntryItemState extends State<FileEntryItem> {
     return Column(
       children: <Widget>[
         ListTile(
-          leading: Icon(
-            Icons.note_add,
-            color: Colors.blueGrey,
-          ),
+          leading: Icon(Icons.note_add, color: Colors.blueGrey),
           title: Text('New File'),
           onTap: () => _selectItem('new file'),
         ),
         ListTile(
-          leading: Icon(
-            Icons.create_new_folder,
-            color: Colors.blueGrey,
-          ),
-          title: Text('New Folder'),
-          onTap: () => _selectItem('new folder'),
-        ),
+            leading: Icon(Icons.create_new_folder, color: Colors.blueGrey),
+            title: Text('New Folder'),
+            onTap: () => _selectItem('new folder')),
         ListTile(
-          leading: Icon(
-            Icons.create,
-            color: Colors.blueGrey,
-          ),
+          leading: Icon(Icons.create, color: Colors.blueGrey),
           title: Text('Rename'),
           onTap: () => _selectItem('rename'),
         ),
         ListTile(
-          leading: Icon(
-            Icons.delete,
-            color: Colors.red,
-          ),
+          leading: Icon(Icons.delete, color: Colors.red),
           title: Text('Delete'),
           onTap: () => _selectItem('delete'),
         ),
