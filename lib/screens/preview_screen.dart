@@ -1,11 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:justwriteit/common/file_model.dart';
+import 'package:justwriteit/screens/editor.dart';
 import 'package:justwriteit/screens/loading.dart';
 import 'package:justwriteit/utilities/api.dart';
 import 'package:toast/toast.dart';
-
-import 'edit_screen.dart';
 
 class PreviewScreen extends StatefulWidget {
   final FileModel _fileModel;
@@ -34,7 +34,6 @@ class _PreviewScreenState extends State<PreviewScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getData();
   }
@@ -42,12 +41,18 @@ class _PreviewScreenState extends State<PreviewScreen> {
   List _buildAppbarActions() {
     return <Widget>[
       PopupMenuButton(
+        icon: Icon(Icons.menu, color: Colors.black,),
         onSelected: (value) {
           if (value == 'edit') {
-            Navigator.of(context).push(MaterialPageRoute<Null>(
+            Navigator.of(context).push(MaterialPageRoute<bool>(
                 builder: (BuildContext context) =>
-                    EditScreen(widget._fileModel, markdownText)));
+                    Editor(widget._fileModel, markdownText))).then((value) => {
+                      if(value){
+                        getData()
+                      }
+            });
           } else {
+
             api.deleteFile(widget._fileModel.pathName, false).then((value) {
               if(value){
                 Toast.show("删除成功！", context,
@@ -92,8 +97,10 @@ class _PreviewScreenState extends State<PreviewScreen> {
   Widget build(BuildContext context) {
     return loading? Loading() : Scaffold(
       appBar: AppBar(
-        title: Text(widget._fileModel.title),
-        backgroundColor: Color(0xFF61A4F1),
+        leading: IconButton(icon: Icon(Icons.arrow_back, color: Colors.black), onPressed: ()=>Navigator.pop(context)),
+        centerTitle: true,
+        title: Text(widget._fileModel.title, style: TextStyle(color: Colors.black)),
+        backgroundColor: Colors.white,
         actions: _buildAppbarActions(),
       ),
       body: Markdown(

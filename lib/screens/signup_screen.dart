@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:justwriteit/screens/login_screen.dart';
+import 'package:justwriteit/common/operations.dart';
+import 'package:justwriteit/screens/loading.dart';
 import 'package:justwriteit/utilities/constants.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -13,6 +15,8 @@ class _SignupScreenState extends State<SignupScreen> {
   String _username;
   String _password;
   String _comfirmPassword;
+
+  bool loading = false;
 
   Widget _buildEmailTF() {
     return Column(
@@ -202,8 +206,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Widget _buildLoginBtn() {
     return GestureDetector(
-      onTap: () => Navigator.of(context).push(MaterialPageRoute<Null>(
-          builder: (BuildContext context) => LoginScreen())),
+      onTap: () => Navigator.pushReplacementNamed(context, '/login'),
       child: RichText(
         text: TextSpan(
           children: [
@@ -230,69 +233,116 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void signup(BuildContext context) {
-    // TODO
+    Operations.api
+        .signup(_email, _username, _password, _comfirmPassword)
+        .then((value) {
+      if (value == null) {
+        Scaffold.of(context).showSnackBar(
+            SnackBar(content: Text('发生网络错误'), duration: Duration(seconds: 3)));
+//      } else if (value) {
+//        Alert(
+//          context: context,
+//          type: AlertType.success,
+//          title: "Success",
+//          desc: 'You have successfully signed up.\nNow go log in.',
+//          buttons: [
+//            DialogButton(
+//              child:
+//              Text("COOL", style: TextStyle(color: Colors.white, fontSize: 20)),
+//              onPressed: () => {
+//                Navigator.popUntil(context, ModalRoute.withName('/login'))
+//              },
+//              width: 120,
+//            )
+//          ],
+//        ).show();
+      } else {
+        Alert(
+          context: context,
+          type: AlertType.success,
+          title: "Success",
+          desc: 'You have successfully signed up.\nNow go log in.',
+          buttons: [
+            DialogButton(
+              child:
+              Text("COOL", style: TextStyle(color: Colors.white, fontSize: 20)),
+              onPressed: () => {
+                Navigator.popUntil(context, ModalRoute.withName('/login'))
+              },
+              width: 120,
+            )
+          ],
+        ).show();
+//        Scaffold.of(context).showSnackBar(SnackBar(
+//          content: Text('There is an account with that email address: $_email'),
+//          duration: Duration(seconds: 3),
+//        ));
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Builder(
-          builder: (context) => AnnotatedRegion<SystemUiOverlayStyle>(
-              value: SystemUiOverlayStyle.light,
-              child: GestureDetector(
-                onTap: () => FocusScope.of(context).unfocus(),
-                child: Stack(children: <Widget>[
-                  Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Color(0xFF73AEF5),
-                          Color(0xFF61A4F1),
-                          Color(0xFF478DE0),
-                          Color(0xFF398AE5),
-                        ],
-                        stops: [0.1, 0.4, 0.7, 0.9],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: double.infinity,
-                    child: SingleChildScrollView(
-                        physics: AlwaysScrollableScrollPhysics(),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 40.0,
-                          vertical: 120.0,
+    return loading
+        ? Loading()
+        : Scaffold(
+            body: Builder(
+                builder: (context) => AnnotatedRegion<SystemUiOverlayStyle>(
+                    value: SystemUiOverlayStyle.light,
+                    child: GestureDetector(
+                      onTap: () => FocusScope.of(context).unfocus(),
+                      child: Stack(children: <Widget>[
+                        Container(
+                          height: double.infinity,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color(0xFF73AEF5),
+                                Color(0xFF61A4F1),
+                                Color(0xFF478DE0),
+                                Color(0xFF398AE5),
+                              ],
+                              stops: [0.1, 0.4, 0.7, 0.9],
+                            ),
+                          ),
                         ),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'OpenSans',
-                                  fontSize: 30.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                        Container(
+                          height: double.infinity,
+                          child: SingleChildScrollView(
+                              physics: AlwaysScrollableScrollPhysics(),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 40.0,
+                                vertical: 120.0,
                               ),
-                              SizedBox(height: 20.0),
-                              _buildEmailTF(),
-                              SizedBox(height: 20.0),
-                              _buildUsernameTF(),
-                              SizedBox(height: 20.0),
-                              _buildPasswordTF(),
-                              SizedBox(height: 20.0),
-                              _buildComfirmPasswordTF(),
-                              _buildSignupBtn(context),
-                              _buildLoginBtn()
-                            ])),
-                  )
-                ]),
-              ))),
-    );
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      'Sign Up',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'OpenSans',
+                                        fontSize: 30.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 20.0),
+                                    _buildEmailTF(),
+                                    SizedBox(height: 20.0),
+                                    _buildUsernameTF(),
+                                    SizedBox(height: 20.0),
+                                    _buildPasswordTF(),
+                                    SizedBox(height: 20.0),
+                                    _buildComfirmPasswordTF(),
+                                    _buildSignupBtn(context),
+                                    _buildLoginBtn()
+                                  ])),
+                        )
+                      ]),
+                    ))),
+          );
   }
 }

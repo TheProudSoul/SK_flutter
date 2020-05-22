@@ -4,7 +4,6 @@ import 'package:justwriteit/bloc/bloc.dart';
 import 'package:justwriteit/bloc/file_system_bloc.dart';
 import 'package:justwriteit/screens/preview_screen.dart';
 import 'package:justwriteit/utilities/api.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'operations.dart';
 import 'file_model.dart';
 
@@ -24,6 +23,7 @@ class _FileEntryItemState extends State<FileEntryItem> {
   Widget _buildTiles(BuildContext context, FileModel root) {
     if (root.leaf) {
       return ListTile(
+        leading: Icon(Icons.bookmark_border),
         title: Text(root.title),
         onTap: () {
           Navigator.of(context)
@@ -46,17 +46,18 @@ class _FileEntryItemState extends State<FileEntryItem> {
       );
     }
     return GestureDetector(
-      onLongPress:  () {
+      onLongPress: () {
         setState(() {
           _selectedItem = root;
         });
         _onLongPressed();
       },
       child: ExpansionTile(
+        leading: Icon(Icons.folder_open),
         key: PageStorageKey<FileModel>(root),
         title: Text(root.title),
         children:
-        root.children.map<Widget>((e) => _buildTiles(context, e)).toList(),
+            root.children.map<Widget>((e) => _buildTiles(context, e)).toList(),
       ),
     );
   }
@@ -139,14 +140,14 @@ class _FileEntryItemState extends State<FileEntryItem> {
           Operations.showNewFolderDialog(context, _selectedItem);
           break;
         }
-      case('rename'):{
-        Operations.showRenameDialog(context, _selectedItem);
-        break;
-      }
+      case ('rename'):
+        {
+          Operations.showRenameDialog(context, _selectedItem);
+          break;
+        }
       case ('delete'):
         {
-          Alert(context: context, title: "delete", desc: "Flutter is awesome.")
-              .show();
+          Operations.showDeleteDialog(context, _selectedItem);
           break;
         }
     }

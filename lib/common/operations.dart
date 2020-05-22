@@ -4,6 +4,7 @@ import 'package:justwriteit/bloc/bloc.dart';
 import 'package:justwriteit/common/file_model.dart';
 import 'package:justwriteit/utilities/api.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:toast/toast.dart';
 
 class Operations {
   static final api = Api();
@@ -41,25 +42,8 @@ class Operations {
               api.addFile(dirname + filename + '.md').then((value) => {
                     if (value)
                       {
-                        Alert(
-                          context: context,
-                          type: AlertType.success,
-                          title: "Success",
-                          desc: " New file name is " + filename,
-                          buttons: [
-                            DialogButton(
-                              child: Text("COOL",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20)),
-                              onPressed: () => {
-                                Navigator.pop(context),
-                                BlocProvider.of<FileSystemBloc>(context)
-                                    .add(FetchFileList())
-                              },
-                              width: 120,
-                            )
-                          ],
-                        ).show()
+                        showSuccessDialog(
+                            context, "New file name is " + filename)
                       }
                   })
             },
@@ -100,25 +84,8 @@ class Operations {
               api.addFolder(dirname + foldername).then((value) => {
                     if (value)
                       {
-                        Alert(
-                          context: context,
-                          type: AlertType.success,
-                          title: "Success",
-                          desc: " New folder name is " + foldername,
-                          buttons: [
-                            DialogButton(
-                              child: Text("COOL",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20)),
-                              onPressed: () => {
-                                Navigator.pop(context),
-                                BlocProvider.of<FileSystemBloc>(context)
-                                    .add(FetchFileList())
-                              },
-                              width: 120,
-                            )
-                          ],
-                        ).show()
+                        showSuccessDialog(
+                            context, " New folder name is " + foldername)
                       }
                   })
             },
@@ -156,13 +123,22 @@ class Operations {
         buttons: [
           DialogButton(
             onPressed: () {
+              Navigator.pop(context);
               String newPath = selectedItem.leaf
                   ? _renameController.text + '.md'
                   : _renameController.text;
               if (selectedItem.dirPath != '') {
                 newPath = selectedItem.dirPath + newPath;
               }
-              print(newPath);
+              api.move(selectedItem.pathName, newPath).then((value) => {
+                    if (value)
+                      {
+                        showSuccessDialog(
+                            context,
+                            "${selectedItem.title} is moved to " +
+                                newPath)
+                      }
+                  });
             },
             child: Text(
               "Commit",
@@ -170,5 +146,83 @@ class Operations {
             ),
           )
         ]).show();
+  }
+
+  static void showDeleteDialog(BuildContext context, FileModel selectedItem) {
+    Alert(
+      closeFunction: () => print('cancel delete.'),
+      context: context,
+      type: AlertType.warning,
+      title: "DELETE",
+      desc: "Are you sure?",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "COMMIT",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => {
+            api
+                .deleteFile(selectedItem.pathName, !selectedItem.leaf)
+                .then((value) => {
+                      if (value)
+                        {
+                          Toast.show("删除成功！", context,
+                              duration: Toast.LENGTH_SHORT, gravity: Toast.TOP),
+                          Navigator.pop(context),
+                          BlocProvider.of<FileSystemBloc>(context)
+                              .add(FetchFileList())
+                        }
+                    })
+          },
+          width: 120,
+        )
+      ],
+    ).show();
+  }
+
+  static void showSignupSuccessDialog(BuildContext context){
+    Alert(
+      context: context,
+      type: AlertType.success,
+      title: "Success",
+      desc: 'You have successfully signed up.\nNow go log in.',
+      buttons: [
+        DialogButton(
+          child:
+          Text("COOL", style: TextStyle(color: Colors.white, fontSize: 20)),
+          onPressed: () => {
+            Navigator.pop(context),
+          },
+          width: 120,
+        )
+      ],
+    ).show();
+  }
+
+  static void showSuccessDialog(BuildContext context, String description) {
+    Alert(
+      closeFunction: ()=>print('close success dialog.'),
+      context: context,
+      type: AlertType.success,
+      title: "Success",
+      desc: description,
+      buttons: [
+        DialogButton(
+          child:
+              Text("COOL", style: TextStyle(color: Colors.white, fontSize: 20)),
+          onPressed: () => {
+            Navigator.pop(context),
+            BlocProvider.of<FileSystemBloc>(context).add(FetchFileList())
+          },
+          width: 120,
+        )
+      ],
+    ).show();
+  }
+
+  static void showUnimplementedMessage(BuildContext context){
+    Toast.show("该功能未完成！", context,
+        duration: Toast.LENGTH_SHORT, gravity: Toast.TOP);
   }
 }

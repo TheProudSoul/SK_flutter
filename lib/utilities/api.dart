@@ -36,6 +36,22 @@ class Api {
     }
   }
 
+  /// 注册
+  Future<bool> signup(String email, String username, String password, String confirmPassword) async {
+    try {
+      final response = await dio.post('/account/registration',
+          data: {'email': email, 'username': username, 'password': password, 'confirmPassword': confirmPassword});
+      final responseBody = response.data;
+      if (responseBody['errCode'] != successCode) {
+        return false;
+      }
+      return true;
+    } on Exception catch (e) {
+      print('$e');
+      return null;
+    }
+  }
+
   /// category
   Future<List<FileModel>> fileSystem() async {
     try {
@@ -124,6 +140,22 @@ class Api {
     try {
       final response = await dio.post('/commit-add',
           data: {"userId": UserModel.userId, 'path': pathname, "dir": true});
+      final responseBody = response.data;
+      if (responseBody['errCode'] != successCode) {
+        return false;
+      }
+      return true;
+    } on Exception catch (e) {
+      print('$e');
+      return null;
+    }
+  }
+
+  /// 移动
+  Future<bool> move(String oldPath, String newPath) async {
+    try {
+      final response = await dio.post('/commit-move',
+          data: {"userId": UserModel.userId, 'path': oldPath, "data": newPath});
       final responseBody = response.data;
       if (responseBody['errCode'] != successCode) {
         return false;

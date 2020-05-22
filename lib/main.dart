@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:justwriteit/screens/login_screen.dart';
+import 'package:justwriteit/screens/signup_screen.dart';
 
 import 'bloc/simple_bloc_delegate.dart';
 
 void main() {
   BlocSupervisor.delegate = SimpleBlocDelegate();
-  runApp(MyApp());
+  runApp(SuperKnowledgeApp());
 }
 
-class MyApp extends StatelessWidget {
+class SuperKnowledgeApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Just Write It',
+      title: 'Super Knowledge',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -31,7 +33,12 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: LoginScreen(),
+      initialRoute: '/login',
+      routes: {
+        '/login': (context)=>LoginScreen(),
+        '/signup': (context)=>SignupScreen()
+      },
+//      home: LoginScreen(),
     );
   }
 }

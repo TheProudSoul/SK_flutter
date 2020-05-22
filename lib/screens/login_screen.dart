@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:justwriteit/bloc/file_system_bloc.dart';
-import 'package:justwriteit/screens/category_screen_1.dart';
-import 'package:justwriteit/screens/signup_screen.dart';
+import 'package:justwriteit/common/operations.dart';
+import 'package:justwriteit/screens/dashboard.dart';
 import 'package:justwriteit/utilities/constants.dart';
-import 'package:justwriteit/utilities/api.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -19,17 +16,14 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
 
   void _login(BuildContext context) {
-    final api = Api();
-    api.login(_username, _password).then((value) {
+    Operations.api.login(_username, _password).then((value) {
       if (value == null) {
         Scaffold.of(context).showSnackBar(
             SnackBar(content: Text('发生网络错误'), duration: Duration(seconds: 3)));
       } else if (value) {
         // 跳转目录页
-        Navigator.of(context).push(MaterialPageRoute<Null>(
-            builder: (BuildContext context) => BlocProvider(
-                create: (context) => FileSystemBloc(),
-                child: CategoryScreen())));
+        Navigator.of(context).pushReplacement(MaterialPageRoute<Null>(
+            builder: (BuildContext context) => Dashboard()));
       } else {
         Scaffold.of(context).showSnackBar(SnackBar(
           content: Text('用户验证失败'),
@@ -65,7 +59,6 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
-            autofocus: true,
             keyboardType: TextInputType.text,
             style: TextStyle(
               color: Colors.white,
@@ -136,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       alignment: Alignment.centerRight,
       child: FlatButton(
-        onPressed: () => print('Forgot Password Button Pressed'),
+        onPressed: () => Operations.showUnimplementedMessage(context),
         padding: EdgeInsets.only(right: 0.0),
         child: Text(
           'Forgot Password?',
@@ -201,8 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildSignupBtn() {
     return GestureDetector(
-      onTap: () => Navigator.of(context).push(MaterialPageRoute<Null>(
-          builder: (BuildContext context) => SignupScreen())),
+      onTap: () => Navigator.pushReplacementNamed(context, '/signup'),
       child: RichText(
         text: TextSpan(
           children: [
