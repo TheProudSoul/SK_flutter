@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:super_knowledge/common/operations.dart';
-import 'package:super_knowledge/screens/dashboard.dart';
 import 'package:super_knowledge/utilities/constants.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -60,8 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
         // remember me
           _setData();
         // 跳转目录页
-        Navigator.of(context).pushReplacement(MaterialPageRoute<Null>(
-            builder: (BuildContext context) => Dashboard()));
+        Navigator.of(context).popAndPushNamed('/');
       } else {
         Scaffold.of(context).showSnackBar(SnackBar(
           content: Text('用户验证失败'),
@@ -234,7 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildSignupBtn() {
     return GestureDetector(
-      onTap: () => Navigator.pushReplacementNamed(context, '/signup'),
+      onTap: () => Navigator.popAndPushNamed(context, '/signup'),
       child: RichText(
         text: TextSpan(
           children: [

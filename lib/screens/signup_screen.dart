@@ -206,7 +206,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Widget _buildLoginBtn() {
     return GestureDetector(
-      onTap: () => Navigator.pushReplacementNamed(context, '/login'),
+      onTap: () => Navigator.popAndPushNamed(context, '/login'),
       child: RichText(
         text: TextSpan(
           children: [
@@ -239,24 +239,7 @@ class _SignupScreenState extends State<SignupScreen> {
       if (value == null) {
         Scaffold.of(context).showSnackBar(
             SnackBar(content: Text('发生网络错误'), duration: Duration(seconds: 3)));
-//      } else if (value) {
-//        Alert(
-//          context: context,
-//          type: AlertType.success,
-//          title: "Success",
-//          desc: 'You have successfully signed up.\nNow go log in.',
-//          buttons: [
-//            DialogButton(
-//              child:
-//              Text("COOL", style: TextStyle(color: Colors.white, fontSize: 20)),
-//              onPressed: () => {
-//                Navigator.popUntil(context, ModalRoute.withName('/login'))
-//              },
-//              width: 120,
-//            )
-//          ],
-//        ).show();
-      } else {
+      } else if (value) {
         Alert(
           context: context,
           type: AlertType.success,
@@ -273,10 +256,11 @@ class _SignupScreenState extends State<SignupScreen> {
             )
           ],
         ).show();
-//        Scaffold.of(context).showSnackBar(SnackBar(
-//          content: Text('There is an account with that email address: $_email'),
-//          duration: Duration(seconds: 3),
-//        ));
+      } else {
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text('There is an account with that email address: $_email'),
+          duration: Duration(seconds: 3),
+        ));
       }
     });
   }

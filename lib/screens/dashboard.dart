@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:super_knowledge/bloc/bloc.dart';
 import 'package:super_knowledge/common/operations.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:super_knowledge/screens/profile_screen.dart';
+import 'package:super_knowledge/screens/settings_screen.dart';
 
 import 'category_screen.dart';
 
@@ -37,28 +38,6 @@ class _DashboardState extends State<Dashboard> {
     img: "assets/about.png",
   );
 
-  void logout(BuildContext context) {
-    Alert(
-      closeFunction: () => print('cancel exit.'),
-      context: context,
-      type: AlertType.warning,
-      title: "LOGOUT",
-      desc: "Are you sure?",
-      buttons: [
-        DialogButton(
-          child: Text(
-            "COMMIT",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () => {
-            Navigator.pushReplacementNamed(context, '/login')
-          },
-          width: 120,
-        )
-      ],
-    ).show();
-  }
-
   void menuRoute(String item) {
     switch(item) {
       case("Knowledge Base"): {
@@ -69,7 +48,9 @@ class _DashboardState extends State<Dashboard> {
         break;
       }
       case("Profile"): {
-        Operations.showUnimplementedMessage(context); break;
+        Navigator.push(context, MaterialPageRoute<Null>(
+            builder: (BuildContext context) => ProfileScreen()));
+        break;
       }
       case("PicBed"): {
         Operations.showUnimplementedMessage(context); break;
@@ -81,7 +62,9 @@ class _DashboardState extends State<Dashboard> {
         Operations.showUnimplementedMessage(context); break;
       }
       case("Settings"): {
-        Operations.showUnimplementedMessage(context); break;
+        Navigator.push(context, MaterialPageRoute<Null>(
+            builder: (BuildContext context) => SettingsScreen()));
+        break;
       }
     }
   }
@@ -102,22 +85,13 @@ class _DashboardState extends State<Dashboard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      "Super Knowledge",
-                      style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
-                              color: Colors.white,
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold)),
-                    ),
-                  ],
-                ),
-                IconButton(
-                  icon: Icon(Icons.exit_to_app, size: 30, color: Colors.white),
-                  onPressed: ()=>logout(context),
+                Text(
+                  "Super Knowledge",
+                  style: GoogleFonts.openSans(
+                      textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold)),
                 )
               ],
             ),

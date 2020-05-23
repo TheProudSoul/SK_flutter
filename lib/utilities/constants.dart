@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+final TextStyle headerStyle = TextStyle(
+  color: Colors.grey.shade800,
+  fontWeight: FontWeight.bold,
+  fontSize: 20.0,
+);
+
 final kHintTextStyle = TextStyle(
   color: Colors.white54,
   fontFamily: 'OpenSans',
@@ -23,4 +29,6 @@ final kBoxDecorationStyle = BoxDecoration(
   ],
 );
 
-final Color mainColor = Color(0xFF398AE5);
+final Color mainColor = Color.fromRGBO(20, 83, 154, 1);
+final Color mainColor2 = Color.fromRGBO(13, 53, 98, 1);
+final Color mainColor3 = Color.fromRGBO(38, 96, 162, 1);
