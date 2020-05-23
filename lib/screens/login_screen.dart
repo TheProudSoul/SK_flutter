@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:super_knowledge/common/operations.dart';
 import 'package:super_knowledge/screens/dashboard.dart';
 import 'package:super_knowledge/utilities/constants.dart';
@@ -10,10 +11,45 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String _username = '';
-  String _password = '';
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  TextEditingController _usernameController;
+  TextEditingController _passwordController;
+
+  String _username;
+  String _password;
 
   bool _rememberMe = false;
+
+  Future<void> _getData() async {
+    final SharedPreferences prefs = await _prefs;
+    setState(() {
+      _rememberMe = prefs.getBool('rememberMe') ?? false;
+      if (_rememberMe) {
+        _username = prefs.getString('username') ?? '';
+        _password = prefs.getString('password') ?? '';
+      }
+    });
+  }
+
+  Future<void> _setData() async {
+    final SharedPreferences prefs = await _prefs;
+    setState(() {
+      prefs.setBool('rememberMe', _rememberMe);
+      if (_rememberMe) {
+        prefs.setString('username', _username);
+        prefs.setString('password', _password);
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getData().then((value) => {
+          _usernameController = new TextEditingController(text: _username),
+          _passwordController = new TextEditingController(text: _password)
+        });
+  }
 
   void _login(BuildContext context) {
     Operations.api.login(_username, _password).then((value) {
@@ -21,6 +57,8 @@ class _LoginScreenState extends State<LoginScreen> {
         Scaffold.of(context).showSnackBar(
             SnackBar(content: Text('发生网络错误'), duration: Duration(seconds: 3)));
       } else if (value) {
+        // remember me
+          _setData();
         // 跳转目录页
         Navigator.of(context).pushReplacement(MaterialPageRoute<Null>(
             builder: (BuildContext context) => Dashboard()));
@@ -59,6 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
+            controller: _usernameController,
             keyboardType: TextInputType.text,
             style: TextStyle(
               color: Colors.white,
@@ -99,6 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
+            controller: _passwordController,
             obscureText: true,
             style: TextStyle(
               color: Colors.white,
