@@ -63,6 +63,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   Widget buildListWithData(List<FileModel> fileList) {
+    print(fileList);
     return RefreshIndicator(
         onRefresh: () async {
           BlocProvider.of<FileSystemBloc>(context).add(RefreshFileList());

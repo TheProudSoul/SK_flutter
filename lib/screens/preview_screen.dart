@@ -98,7 +98,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
       appBar: AppBar(
         leading: IconButton(icon: Icon(Icons.arrow_back, color: Colors.black), onPressed: ()=>Navigator.pop(context)),
         centerTitle: true,
-        title: Text(widget._fileModel.title.substring(0, widget._fileModel.title.indexOf('.')), style: TextStyle(color: Colors.black)),
+        title: Text(widget._fileModel.title, style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.white,
         actions: _buildAppbarActions(),
       ),

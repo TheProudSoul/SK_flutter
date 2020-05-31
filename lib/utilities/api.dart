@@ -18,17 +18,28 @@ class Api {
   }
 
   /// 登录
-  Future<bool> login(String username, String password) async {
+  Future<bool> login(String email, String password) async {
+    print(email);
+    print(password);
     try {
       final response = await dio.post('/account/login',
-          data: {'username': username, 'password': password});
+          data: {'email': email, 'password': password});
       final responseBody = response.data;
       print(responseBody);
       if (responseBody['errCode'] != successCode) {
         return false;
       }
-      UserModel.setUserInfo(responseBody['data']['id'],
-          responseBody['data']['username'], responseBody['data']['email']);
+      UserModel.setToken(responseBody['data']['id'],
+          responseBody['data']['token']);
+      final response2 = await dio.get('/user/${UserModel.userId}');
+      final responseBody2 = response2.data;
+      print(responseBody2);
+      if (responseBody2['errCode'] != successCode) {
+        return false;
+      }
+      UserModel.setUserInfo(responseBody2['data']['username'],
+          responseBody2['data']['email']);
+
       return true;
     } on Exception catch (e) {
       print('$e');
@@ -87,7 +98,7 @@ class Api {
   /// 保存文件
   Future<bool> saveFile(String pathname, String content) async {
     try {
-      final response = await dio.post('/commit-edit', data: {
+      final response = await dio.post('/notification/commit-edit', data: {
         "userId": UserModel.userId,
         'path': pathname,
         "data": content
@@ -106,7 +117,7 @@ class Api {
   /// 删除文件
   Future<bool> deleteFile(String pathname, bool dir) async {
     try {
-      final response = await dio.post('/commit-delete',
+      final response = await dio.post('/notification/commit-delete',
           data: {"userId": UserModel.userId, 'path': pathname, "dir": dir});
       final responseBody = response.data;
       if (responseBody['errCode'] != successCode) {
@@ -122,7 +133,7 @@ class Api {
   /// 添加文件
   Future<bool> addFile(String pathname) async {
     try {
-      final response = await dio.post('/commit-add',
+      final response = await dio.post('/notification/commit-add',
           data: {"userId": UserModel.userId, 'path': pathname, "dir": false});
       final responseBody = response.data;
       if (responseBody['errCode'] != successCode) {
@@ -138,7 +149,7 @@ class Api {
   /// 添加文件夹
   Future<bool> addFolder(String pathname) async {
     try {
-      final response = await dio.post('/commit-add',
+      final response = await dio.post('/notification/commit-add',
           data: {"userId": UserModel.userId, 'path': pathname, "dir": true});
       final responseBody = response.data;
       if (responseBody['errCode'] != successCode) {
@@ -154,7 +165,7 @@ class Api {
   /// 移动
   Future<bool> move(String oldPath, String newPath) async {
     try {
-      final response = await dio.post('/commit-move',
+      final response = await dio.post('/notification/commit-move',
           data: {"userId": UserModel.userId, 'path': oldPath, "data": newPath});
       final responseBody = response.data;
       if (responseBody['errCode'] != successCode) {
@@ -172,6 +183,7 @@ class CustomInterceptors extends InterceptorsWrapper {
   @override
   Future onRequest(RequestOptions options) {
     print("REQUEST[${options?.method}] => PATH: ${options?.path}");
+    options.headers["Authorization"] = "Super Knowledge "+UserModel.token;
     return super.onRequest(options);
   }
   @override

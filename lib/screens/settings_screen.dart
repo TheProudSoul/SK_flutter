@@ -61,7 +61,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 children: <Widget>[
                   ListTile(
                     leading: CircleAvatar(
-                      child: Text('L'),
+                      child: Text('SK'),
                     ),
                     title: Text(UserModel.username),
                     onTap: () {},

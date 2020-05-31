@@ -11,10 +11,10 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  TextEditingController _usernameController;
+  TextEditingController _emailController;
   TextEditingController _passwordController;
 
-  String _username;
+  String _email;
   String _password;
 
   bool _rememberMe = false;
@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       _rememberMe = prefs.getBool('rememberMe') ?? false;
       if (_rememberMe) {
-        _username = prefs.getString('username') ?? '';
+        _email = prefs.getString('email') ?? '';
         _password = prefs.getString('password') ?? '';
       }
     });
@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       prefs.setBool('rememberMe', _rememberMe);
       if (_rememberMe) {
-        prefs.setString('username', _username);
+        prefs.setString('email', _email);
         prefs.setString('password', _password);
       }
     });
@@ -45,13 +45,13 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     _getData().then((value) => {
-          _usernameController = new TextEditingController(text: _username),
+          _emailController = new TextEditingController(text: _email),
           _passwordController = new TextEditingController(text: _password)
         });
   }
 
   void _login(BuildContext context) {
-    Operations.api.login(_username, _password).then((value) {
+    Operations.api.login(_email, _password).then((value) {
       if (value == null) {
         Scaffold.of(context).showSnackBar(
             SnackBar(content: Text('发生网络错误'), duration: Duration(seconds: 3)));
@@ -81,12 +81,12 @@ class _LoginScreenState extends State<LoginScreen> {
             )));
   }
 
-  Widget _buildUsernameTF() {
+  Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'Username',
+          'Email',
           style: kLabelStyle,
         ),
         SizedBox(height: 10.0),
@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
-            controller: _usernameController,
+            controller: _emailController,
             keyboardType: TextInputType.text,
             style: TextStyle(
               color: Colors.white,
@@ -103,17 +103,17 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             onChanged: (value) {
               setState(() {
-                _username = value;
+                _email = value;
               });
             },
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
-                Icons.account_circle,
+                Icons.email,
                 color: Colors.white,
               ),
-              hintText: 'Enter your Username',
+              hintText: 'Enter your Email',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -307,7 +307,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
 //                      _buildLogo(),
                               SizedBox(height: 30.0),
-                              _buildUsernameTF(),
+                              _buildEmailTF(),
                               SizedBox(height: 30.0),
                               _buildPasswordTF(),
                               _buildForgotPasswordBtn(),

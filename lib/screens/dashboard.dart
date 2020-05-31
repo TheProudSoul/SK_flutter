@@ -34,7 +34,7 @@ class _DashboardState extends State<Dashboard> {
     img: "assets/man.png",
   );
   MenuItem item6 = new MenuItem(
-    title: "About",
+    title: "Transition",
     img: "assets/about.png",
   );
 

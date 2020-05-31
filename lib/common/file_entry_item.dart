@@ -23,7 +23,7 @@ class _FileEntryItemState extends State<FileEntryItem> {
     if (root.leaf) {
       return ListTile(
         leading: Icon(Icons.description, color: Colors.blueGrey[600]),
-        title: Text(root.title.substring(0,root.title.indexOf('.')), style: TextStyle(color: Colors.blueGrey[800])),
+        title: Text(root.title, style: TextStyle(color: Colors.blueGrey[800])),
         onTap: () {
           Navigator.of(context)
               .push(MaterialPageRoute(

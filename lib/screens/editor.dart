@@ -58,7 +58,7 @@ class _EditorState extends State<Editor> with SingleTickerProviderStateMixin {
         ],
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: Text(widget.fileModel.title.substring(0, widget.fileModel.title.indexOf('.')), style: textStyle),
+        title: Text(widget.fileModel.title, style: textStyle),
         bottom: TabBar(controller: _controller, tabs: <Widget>[
           Tab(child: Text('Editing', style: textStyle)),
           Tab(child: Text('Preview', style: textStyle))
